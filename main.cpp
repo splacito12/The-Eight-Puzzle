@@ -76,7 +76,7 @@ int calculateManhattan(const vector<int>& game){
             int currRow = i / 3;
             int currColumn = i % 3;
 
-            //calculate the absolute value of the two distanced
+            //calculate the absolute value of the distance bewteen the goal row and column and the current row  and column
             distSum += abs(Row - currRow) + abs(Column - currColumn);
         }
     }
@@ -115,4 +115,38 @@ void printGameBoard(const vector<int>& game){
     - outputs the results with its steps
     -outputs the depth along with expanded nodes and max queue size
 */
-int main(){}
+int main(){
+    //variables go here
+    //we will ask the user to input the starting state of the puzzle
+    vector<int> startState(9);
+    int searchChoice;
+
+    //cout and cin go here
+    cout << "Welcome to my 8 puzzle solver!" << endl;
+    cout << "Before we proceed, please input the numbers you want to start with." << endl;
+    cout << "For the blank tile, please use 0." << endl;
+    
+    for(int i = 0; i < 9; i++){
+        cin >> startState[i];
+    }
+
+    //here we will print the puzzle the user has provided
+    cout << "Your puzzle is: " << endl;
+    printGameBoard(startState);
+
+    //Ask the user what search algorithm they want to use
+    cout << "Now, please choice was search algorithm you want to use to solve the puzzle." << endl;
+    cout << " 1. Uniform Cost Search" << endl;
+    cout << "2. A* with Misplaced Tile Heuristic" << endl;
+    cout << "3. A* with Manhatta Distance Heuristic" << endl;
+    cin >> searchChoice;
+
+    //if the user chooses a number that isnt 1 - 3, ask them to choose again
+    while(searchChoice < 1 || searchChoice > 3){
+        cout << "Invalid choice. Please eneter the numbers 1, 2, or 3." << endl;
+        cin >> searchChoice;
+    }
+
+    //now, depending on the user's choice, call the correct search function
+    
+}
