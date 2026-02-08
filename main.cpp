@@ -31,7 +31,7 @@ vector<int> goalState = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 //Here we will be creating comparing our priority queue for A* 
 struct comparePQ{
     bool operator()(gameState x, gameState y){
-        return (x.gN + x.hN) > (y.N + y.hN); //since we are doing PQ, we want the lowest value
+        return (x.gN + x.hN) > (y.gN + y.hN); //since we are doing PQ, we want the lowest value
     }
 }
 
@@ -92,11 +92,28 @@ void UCS(const vector<int>& startState){
 
 }
 
-//general search function will go here
-void generalSearch(const vector<int>& startState, int searchChoice){}
-
 //node expansion function will go here
 vector<gameState> nodeExpansion(const gameState& currState){}
+
+//Function to print the optimal solution steps will go here
+void printOptSolution(gameState* steps){}
+
+
+//general search function will go here
+/*
+    This function will behave similarly to the one in the slides.
+    It will take in the starting state and user's choice to get to the goal state
+    using either misplace tile or mahnattan distance.
+    - we will be using priority queue
+    - calculate the depth
+    -calculate the max queue size
+    -calculate the number of nodes expanded
+*/
+void generalSearch(const vector<int>& startState, int searchChoice){}
+
+// //node expansion function will go here
+// vector<gameState> nodeExpansion(const gameState& currState){}
+
 
 
 //Now, we will be printing ou our game board
@@ -116,8 +133,6 @@ void printGameBoard(const vector<int>& game){
     Our main function will go here. 
     - We will be asking the user to input the starting state of the puzzle
     - user has the option to choose from the three search algorithms that are provided
-    - outputs the results with its steps
-    -outputs the depth along with expanded nodes and max queue size
 */
 int main(){
     //variables go here
@@ -153,7 +168,7 @@ int main(){
 
     //now, depending on the user's choice, call the correct search function
     //we will be using a switch statement
-    switch(searchchoice){
+    switch(searchChoice){
         case 1:
             UCS(startState);
             break;
