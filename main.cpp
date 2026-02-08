@@ -152,5 +152,18 @@ int main(){
     }
 
     //now, depending on the user's choice, call the correct search function
-    
+    //we will be using a switch statement
+    switch(searchchoice){
+        case 1:
+            UCS(startState);
+            break;
+        case 2:
+            generalSearch(startState, searchChoice);
+            break;
+        case 3:
+            generalSearch(startState, searchChoice);
+            break;
+    }
+
+    return 0;
 }
