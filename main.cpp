@@ -18,7 +18,7 @@ struct gameState{
     vector<int> gameBoard;
     int gN;   //our cost
     int hN;   //our estimated distance from the goal 
-    State* parent;  //will be used to show the solution steps
+    gameState* parent;  //will be used to show the solution steps
 };
 
 //declare our goal
