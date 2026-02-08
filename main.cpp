@@ -16,8 +16,8 @@ using namespace std;
 //here we will declare our states
 struct gameState{
     vector<int> gameBoard;
-    int g(n);   //our cost
-    int h(n);   //our estimated distance from the goal 
+    int gN;   //our cost
+    int hN;   //our estimated distance from the goal 
     State* parent;  //will be used to show the solution steps
 };
 
@@ -92,7 +92,11 @@ void UCS(const vector<int>& startState){
 
 }
 
+//general search function will go here
+void generalSearch(const vector<int>& startState, int searchChoice){}
 
+//node expansion function will go here
+vector<gameState> nodeExpansion(const gameState& currState){}
 
 
 //Now, we will be printing ou our game board
