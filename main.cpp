@@ -31,7 +31,7 @@ vector<int> goalState = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 //Here we will be creating comparing our priority queue for A* 
 struct comparePQ{
     bool operator()(gameState x, gameState y){
-        return (x.g(n) + x.h(n)) > (y.g(n) + y.h(n)); //since we are doing PQ, we want the lowest value
+        return (x.gN + x.hN) > (y.N + y.hN); //since we are doing PQ, we want the lowest value
     }
 }
 
@@ -103,7 +103,7 @@ vector<gameState> nodeExpansion(const gameState& currState){}
 void printGameBoard(const vector<int>& game){
     for(int i = 0; i < 9; i++){  
         if(i % 3 == 0){
-            cout << " " << endl;
+            cout << endl;
         }else{
             cout << game[i] << " ";
         }
