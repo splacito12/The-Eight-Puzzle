@@ -93,10 +93,65 @@ void UCS(const vector<int>& startState){
 }
 
 //node expansion function will go here
-vector<gameState> nodeExpansion(const gameState& currState){}
+vector<gameState*> nodeExpansion(const gameState* currState){
+    //expand nodes. This is done by moving tiles up, down, left, and right
+    vector<gameState*> expandedNodes;
 
-//Function to print the optimal solution steps will go here
-void printOptSolution(gameState* steps){}
+    //find the position od the blank(0) tile
+    int blank = find(currState->gameBoard.begin(), currState->gameBoard.end(), 0) - currState->gameBoard.begin(); 
+    int row = blank / 3;
+    int column = blank %3;
+
+    //check for all possible moves.
+    if(row > 0){    //move up
+        gameState* up = new gameState;
+        up->gameBoard = currState->gameBoard;
+
+        swap(up->gameBoard[blank], up->gameBoard[blank - 3]);   //swap blank tile with the tile above it
+
+        up->gN = currState->gN + 1; //increment the cost
+        up->parent = currState; 
+
+        expandedNodes.push_back(up);
+    }else if(row < 2){  //move down
+        gameState* down = new gameState;
+        down->gameBoard = currState->gameBoard;
+
+        swap(down->gameBoard[blank], down->gameBoard[blank + 3]);  //swap blank tile with tile below it
+
+        down->gN = currState->gN + 1; // increment the cost;
+        down->parent = currState;
+
+        expandedNodes.push_back(down);
+    }else if(colum > 0){    //move left
+        gameState* left = new gameState;
+        left->gameBoard = currState->gameBoard;
+
+        swap(left->gameBoard[blank], left->gameBoard[blank - 1]); //swap blank tile with tile to the left
+
+        left->gN = currState->gN + 1; //increment the cost
+        left->parent = currState;
+
+        expandedNodes.push_back(left);
+    }else if(column < 2){   //move right
+        gameState* right = new gameState;
+        right->gameBoard = currState->gameBoard;
+
+        swap(right->gameBoard[blank], right->gameBoard[blank + 1]); //swap blank tile with tile to the right
+
+        right->gN = currState->gN + 1; //increment the cost
+        right->parent = currState;
+
+        expandedNodes.push_back(right);
+    }
+
+    return expandedNodes;
+}
+
+// //Function to print the optimal solution steps will go here
+// void printOptSolution(gameState* steps){
+//     //
+// }
 
 
 //general search function will go here
@@ -109,7 +164,13 @@ void printOptSolution(gameState* steps){}
     -calculate the max queue size
     -calculate the number of nodes expanded
 */
-void generalSearch(const vector<int>& startState, int searchChoice){}
+void generalSearch(const vector<int>& startState, int searchChoice){
+    priority_queue<gameState, vector<gameState>, comparePQ> priorityQueue;
+
+    //keep track of the nodes that are being visited
+
+}
+
 
 // //node expansion function will go here
 // vector<gameState> nodeExpansion(const gameState& currState){}
@@ -127,6 +188,11 @@ void printGameBoard(const vector<int>& game){
     }
 
     cout << "~~~~~~~~~" << endl;
+}
+
+//Function to print the optimal solution steps will go here
+void printOptSolution(gameState* steps){
+    //
 }
 
 /*
