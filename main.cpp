@@ -221,7 +221,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
                         
         //check if the current node is the goal state
         if(goalTest(currNode->gameBoard)){
-            cout << "A solution has been found :D" << endl;
+            cout << "\nA solution has been found :)!" << endl;
             cout << "Steps: " << endl;
             printOptSolution(currNode); //print the solution steps
 
