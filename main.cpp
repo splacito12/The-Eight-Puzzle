@@ -18,7 +18,7 @@ struct gameState{
     vector<int> gameBoard;
     int gN;   //our cost
     int hN;   //our estimated distance from the goal 
-    gameState* parent;  //will be used to show the solution steps
+    const gameState* parent;  //will be used to show the solution steps
 };
 
 //declare our goal
@@ -150,13 +150,13 @@ vector<gameState*> nodeExpansion(const gameState* currState){
 void printGameBoard(const vector<int>& game){
     for(int i = 0; i < 9; i++){  
         if(i % 3 == 0){
-            cout << " " << endl;
-        }else{
-            cout << game[i] << " ";
+            cout << endl;
         }
+        
+        cout << game[i] << " ";
     }
 
-    cout << "~~~~~~~~~" << endl;
+    cout << "\n~~~~~~~~~\n" << endl;
 }
 
 //Function to print the optimal solution steps will go here
@@ -205,6 +205,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
     
     //push the startint state into the priority queue
     priorityQueue.push(start);
+    visited.insert(startState); //mark the starting state as visited. Causes error if we don't include this.
                                
     //now, we need to keep track of the depth, max queue size, and the number of nodes expanded
     int depth = 0;
@@ -240,7 +241,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
                     priorityQueue.push(node);
                     visited.insert(node->gameBoard); 
 
-                    depth = node->gN; //update the depth
+                    // depth = node->gN; //update the depth
 
                     //calculate the h(n) value
                     if(searchChoice == 2){
@@ -260,7 +261,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
             }
             
             //remember to delete current node to free up memory
-            delete currNode;
+            //delete currNode;
         }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     }
     
