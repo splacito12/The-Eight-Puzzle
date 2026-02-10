@@ -1,7 +1,7 @@
 /*
     Name: Samantha Placito Melendrez
     SID: splac006
-    Project: The Eight Puzzle
+    Project 1: The Eight Puzzle
 */
 
 #include <iostream>
@@ -213,12 +213,6 @@ void generalSearch(const vector<int>& startState, int searchChoice){
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-
-// //node expansion function will go here
-// vector<gameState> nodeExpansion(const gameState& currState){}
-
-
 
 //Now, we will be printing ou our game board
 void printGameBoard(const vector<int>& game){
