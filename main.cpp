@@ -47,7 +47,7 @@ bool goalTest(const vector<int>& game){
 */
 
 //the A* misplaced tile heuristic function
-int calculateMiplaced(const vector<int>& game){
+int calculateMisplaced(const vector<int>& game){
     int misplacedTile = 0;
     for(int i = 0; i < 9; i++){
         //check whether the tile is in its position. Increment if not.
@@ -84,18 +84,10 @@ int calculateManhattan(const vector<int>& game){
     return distSum;
 }
 
-//uniform cost search function
-void UCS(const vector<int>& startState){
-    //remember we use priority queue for uniform cost search
-    //we need a function for the all of the nodes we visited
-    priority_queue<gameState, vector<gameState>, comparePQ> priorityQueue;
-
-}
-
 //node expansion function will go here
 vector<gameState*> nodeExpansion(const gameState* currState){
     //expand nodes. This is done by moving tiles up, down, left, and right
-    vector<gameState*> expandedNodes;
+        vector<gameState*> expandedNodes;
 
     //find the position od the blank(0) tile
     int blank = find(currState->gameBoard.begin(), currState->gameBoard.end(), 0) - currState->gameBoard.begin(); 
@@ -113,7 +105,9 @@ vector<gameState*> nodeExpansion(const gameState* currState){
         up->parent = currState; 
 
         expandedNodes.push_back(up);
-    }else if(row < 2){  //move down
+    }
+                                                                                        
+    if(row < 2){  //move down
         gameState* down = new gameState;
         down->gameBoard = currState->gameBoard;
 
@@ -123,7 +117,9 @@ vector<gameState*> nodeExpansion(const gameState* currState){
         down->parent = currState;
 
         expandedNodes.push_back(down);
-    }else if(colum > 0){    //move left
+    }
+                                                                                                                                                    
+    if(column > 0){    //move left
         gameState* left = new gameState;
         left->gameBoard = currState->gameBoard;
 
@@ -133,7 +129,9 @@ vector<gameState*> nodeExpansion(const gameState* currState){
         left->parent = currState;
 
         expandedNodes.push_back(left);
-    }else if(column < 2){   //move right
+    }
+                                                                                                                                                                                                                
+    if(column < 2){   //move right
         gameState* right = new gameState;
         right->gameBoard = currState->gameBoard;
 
@@ -148,29 +146,74 @@ vector<gameState*> nodeExpansion(const gameState* currState){
     return expandedNodes;
 }
 
-// //Function to print the optimal solution steps will go here
-// void printOptSolution(gameState* steps){
-//     //
-// }
-
-
+                                                                                                                                                                                                                                                                            
 //general search function will go here
-/*
-    This function will behave similarly to the one in the slides.
-    It will take in the starting state and user's choice to get to the goal state
-    using either misplace tile or mahnattan distance.
-    - we will be using priority queue
-    - calculate the depth
-    -calculate the max queue size
-    -calculate the number of nodes expanded
+/*                                                                                                                                                                                                                                                                         
+This function will behave similarly to the one in the slides                                                                                                                                                                                                                                                                                
+It will take in the starting state and user's choice to get to the goal state
+using either misplace tile or mahnattan distance.
+- we will be using priority queue
+- calculate the depth
+-calculate the max queue size
+-calculate the number of nodes expanded
+
 */
+
 void generalSearch(const vector<int>& startState, int searchChoice){
-    priority_queue<gameState, vector<gameState>, comparePQ> priorityQueue;
 
-    //keep track of the nodes that are being visited
+    priority_queue<gameState*, vector<gameState*>, comparePQ> priorityQueue;
+    set<vector<int>> visited;   //keep track of the nodes that are being visited
+    
+    gameState* start = new gameState;   //create a new game state
 
+    start->gameBoard = startState; 
+    start->gN = 0;
+                                                                                                                                                                                                                                                                                                                                
+    //determine h(n) based off if the user's choice.
+    if(searchChoice == 2){
+        start->hN = calculateMisplaced(startState);
+    }else if(searchChoice == 3){
+        start->hN = calculateManhattan(startState);
+    }else{
+        start->hN = 0;  //this is for uniform cost search. 
+    }
+
+    
+    //push the startint state into the priority queue
+    priorityQueue.push(*start);
+                               
+    //now, we need to keep track of the depth, max queue size, and the number of nodes expanded
+    int depth = 0;
+    int maxQueue = 1;
+    int expandedNodes = 0;
+                          
+    //begin the search
+    while(!priorityQueue.empty()){
+        //get the lowest value node
+        gameState* currNode = priorityQueue.top();
+        priorityQueue.pop();
+        expandedNodes++;
+                        
+        //check if the current node is the goal state
+        if(goalTest(currNode->gameBoard)){
+            cout << "You have reached the goal state!" << endl;
+            cout << "Depth: " << depth << endl;
+            cout << "Max Queue Size: " << maxQueue << endl;
+            cout << "Nodes Expanded: " << expandedNodes << endl;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            
+            return;                                                    
+        }else{
+            //if we didn't reach the goal state, expand the node even more
+            vector<gameState*> expandedNodes = nodeExpansion(currNode);
+        
+        
+        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
 // //node expansion function will go here
 // vector<gameState> nodeExpansion(const gameState& currState){}
@@ -236,7 +279,7 @@ int main(){
     //we will be using a switch statement
     switch(searchChoice){
         case 1:
-            UCS(startState);
+            generalSearch(startState, searchChoice);
             break;
         case 2:
             generalSearch(startState, searchChoice);
