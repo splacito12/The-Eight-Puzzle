@@ -30,8 +30,8 @@ vector<int> goalState = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 
 //Here we will be creating comparing our priority queue for A* 
 struct comparePQ{
-    bool operator()(gameState x, gameState y){
-        return (x.gN + x.hN) > (y.gN + y.hN); //since we are doing PQ, we want the lowest value
+    bool operator()(gameState* x, gameState* y){
+        return (x->gN + x->hN) > (y->gN + y->hN); //since we are doing PQ, we want the lowest value
     }
 }
 
@@ -146,6 +146,30 @@ vector<gameState*> nodeExpansion(const gameState* currState){
     return expandedNodes;
 }
 
+//Now, we will be printing ou our game board
+void printGameBoard(const vector<int>& game){
+    for(int i = 0; i < 9; i++){  
+        if(i % 3 == 0){
+            cout << " " << endl;
+        }else{
+            cout << game[i] << " ";
+        }
+    }
+
+    cout << "~~~~~~~~~" << endl;
+}
+
+//Function to print the optimal solution steps will go here
+void printOptSolution(gameState* steps){
+    //we will recursively print the steps
+    if(steps == NULL){
+        return;
+    }
+
+    printOptSolution(steps->parent);
+    printGameBoard(steps->gameBoard);
+}
+
                                                                                                                                                                                                                                                                             
 //general search function will go here
 /*                                                                                                                                                                                                                                                                         
@@ -180,7 +204,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
 
     
     //push the startint state into the priority queue
-    priorityQueue.push(*start);
+    priorityQueue.push(start);
                                
     //now, we need to keep track of the depth, max queue size, and the number of nodes expanded
     int depth = 0;
@@ -196,6 +220,10 @@ void generalSearch(const vector<int>& startState, int searchChoice){
                         
         //check if the current node is the goal state
         if(goalTest(currNode->gameBoard)){
+            cout << "A solution has been found :D" << endl;
+            cout << "Steps: " << endl;
+            printoptSolution(currNode); //print the solution steps
+
             cout << "You have reached the goal state!" << endl;
             cout << "Depth: " << depth << endl;
             cout << "Max Queue Size: " << maxQueue << endl;
@@ -204,33 +232,65 @@ void generalSearch(const vector<int>& startState, int searchChoice){
             return;                                                    
         }else{
             //if we didn't reach the goal state, expand the node even more
-            vector<gameState*> expandedNodes = nodeExpansion(currNode);
-        
-        
-        }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            vector<gameState*> expanded = nodeExpansion(currNode);
+
+            //check if the expanded nodes have been visited. 
+            for(gameState* node : expanded){
+                if(visited.find(node->gameBoard) == visited.end()){
+                    priorityQueue.push(node);
+                    visited.insert(node->gameBoard); 
+
+                    depth = node->gN; //update the depth
+
+                    //calculate the h(n) value
+                    if(searchChoice == 2){
+                        node->hN = calculateMisplaced(node->gameBoard);
+                    }else if(searchChoice == 3){
+                        node->hN = calculateManhattan(node->gameBoard);
+                    }else{
+                        node->hN = 0;
+                    }
+
+                    //
+                    
+                    if(priorityQueue.size() > maxQueue){
+                        maxQueue = priorityQueue.size();    //Now, we have to update the max queue size
+                    }
+                }
+            }
+            
+            //remember to delete current node to free up memory
+            delete currNode;
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    
+    //print if there are no possible solutions
+    cout << "No solution has been found." << endl;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 }
 
-//Now, we will be printing ou our game board
-void printGameBoard(const vector<int>& game){
-    for(int i = 0; i < 9; i++){  
-        if(i % 3 == 0){
-            cout << endl;
-        }else{
-            cout << game[i] << " ";
-        }
-    }
+// //Now, we will be printing ou our game board
+// void printGameBoard(const vector<int>& game){
+//     for(int i = 0; i < 9; i++){  
+//         if(i % 3 == 0){
+//             cout << " " << endl;
+//         }else{
+//             cout << game[i] << " ";
+//         }
+//     }
 
-    cout << "~~~~~~~~~" << endl;
-}
+//     cout << "~~~~~~~~~" << endl;
+// }
 
-//Function to print the optimal solution steps will go here
-void printOptSolution(gameState* steps){
-    //
-}
+// //Function to print the optimal solution steps will go here
+// void printOptSolution(gameState* steps){
+//     //we will recursively print the steps
+//     if(steps == NULL){
+//         return;
+//     }
+
+//     printOptSolution(steps->parent);
+//     printGameBoard(steps->gameBoard);
+// }
 
 /*
     Our main function will go here. 
