@@ -160,7 +160,7 @@ void printGameBoard(const vector<int>& game){
 }
 
 //Function to print the optimal solution steps will go here
-void printOptSolution(gameState* steps){
+void printOptSolution(const gameState* steps){
     //we will recursively print the steps
     if(steps == NULL){
         return;
