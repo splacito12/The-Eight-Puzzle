@@ -33,7 +33,7 @@ struct comparePQ{
     bool operator()(gameState* x, gameState* y){
         return (x->gN + x->hN) > (y->gN + y->hN); //since we are doing PQ, we want the lowest value
     }
-}
+};
 
 //Our goal test function will go here. It will be a bool function
 bool goalTest(const vector<int>& game){
@@ -222,7 +222,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
         if(goalTest(currNode->gameBoard)){
             cout << "A solution has been found :D" << endl;
             cout << "Steps: " << endl;
-            printoptSolution(currNode); //print the solution steps
+            printOptSolution(currNode); //print the solution steps
 
             cout << "You have reached the goal state!" << endl;
             cout << "Depth: " << depth << endl;
