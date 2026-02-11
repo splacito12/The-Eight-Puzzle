@@ -241,7 +241,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
                     priorityQueue.push(node);
                     visited.insert(node->gameBoard); 
 
-                    // depth = node->gN; //update the depth
+                    depth = currNode->gN; //update the depth
 
                     //calculate the h(n) value
                     if(searchChoice == 2){
@@ -269,29 +269,6 @@ void generalSearch(const vector<int>& startState, int searchChoice){
     cout << "No solution has been found." << endl;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 }
 
-// //Now, we will be printing ou our game board
-// void printGameBoard(const vector<int>& game){
-//     for(int i = 0; i < 9; i++){  
-//         if(i % 3 == 0){
-//             cout << " " << endl;
-//         }else{
-//             cout << game[i] << " ";
-//         }
-//     }
-
-//     cout << "~~~~~~~~~" << endl;
-// }
-
-// //Function to print the optimal solution steps will go here
-// void printOptSolution(gameState* steps){
-//     //we will recursively print the steps
-//     if(steps == NULL){
-//         return;
-//     }
-
-//     printOptSolution(steps->parent);
-//     printGameBoard(steps->gameBoard);
-// }
 
 /*
     Our main function will go here. 
@@ -314,7 +291,7 @@ int main(){
     }
 
     //here we will print the puzzle the user has provided
-    cout << "Your puzzle is: " << endl;
+    cout << "\nYour puzzle is: " << endl;
     printGameBoard(startState);
 
     //Ask the user what search algorithm they want to use
