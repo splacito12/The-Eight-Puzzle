@@ -208,7 +208,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
     visited.insert(startState); //mark the starting state as visited. Causes error if we don't include this.
                                
     //now, we need to keep track of the depth, max queue size, and the number of nodes expanded
-    int depth = 0;
+    //int depth = 0;
     int maxQueue = 1;
     int expandedNodes = 0;
                           
@@ -217,6 +217,13 @@ void generalSearch(const vector<int>& startState, int searchChoice){
         //get the lowest value node
         gameState* currNode = priorityQueue.top();
         priorityQueue.pop();
+        
+        //skip any node that has already been visited
+        if(visited.find(currNode->gameBoard) != visited.end()){
+            continue;
+        }
+        
+        visited.insert(currNode->gameBoard);
         expandedNodes++;
                         
         //check if the current node is the goal state
@@ -226,7 +233,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
             printOptSolution(currNode); //print the solution steps
 
             cout << "You have reached the goal state!" << endl;
-            cout << "Depth: " << depth << endl;
+            cout << "Depth: " << currNode->gN << endl;
             cout << "Max Queue Size: " << maxQueue << endl;
             cout << "Nodes Expanded: " << expandedNodes << endl;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
             
@@ -238,10 +245,10 @@ void generalSearch(const vector<int>& startState, int searchChoice){
             //check if the expanded nodes have been visited. 
             for(gameState* node : expanded){
                 if(visited.find(node->gameBoard) == visited.end()){
-                    priorityQueue.push(node);
-                    visited.insert(node->gameBoard); 
+                    // priorityQueue.push(node);
+                    // visited.insert(node->gameBoard); 
 
-                    depth = currNode->gN; //update the depth
+                    //depth = currNode->gN; //update the depth
 
                     //calculate the h(n) value
                     if(searchChoice == 2){
@@ -252,7 +259,7 @@ void generalSearch(const vector<int>& startState, int searchChoice){
                         node->hN = 0;
                     }
 
-                    //
+                    priorityQueue.push(node);
                     
                     if(priorityQueue.size() > maxQueue){
                         maxQueue = priorityQueue.size();    //Now, we have to update the max queue size
